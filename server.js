@@ -1,18 +1,38 @@
 const path = require('node:path');
-const Fastify = require('fastify');
-const fastifyStatic = require('@fastify/static');
+const fastify = require('fastify')({ logger: true });
 
-const fastify = Fastify({
-  logger: true
+let users = [
+  { id: 1, name: 'Шкереберть Шкеребертев', email: 'skerebert@example.com' },
+  { id: 2, name: 'Сергей Сизов', email: 'sizov@example.com' }
+];
+
+fastify.register(require('@fastify/formbody'));
+fastify.register(require('@fastify/view'), {
+  engine: { pug: require('pug') },
+  root: path.join(__dirname, 'views')
 });
-
-fastify.register(fastifyStatic, {
+fastify.register(require('@fastify/static'), {
   root: path.join(__dirname, 'public'),
   prefix: '/'
 });
 
-fastify.get('/api', async (request, reply) => {
-  return 'Запрос прошел успешно';
+fastify.get('/users', async (request, reply) => {
+  return reply.view('users', { users });
+});
+
+fastify.get('/users/create', async (request, reply) => {
+  return reply.view('create');
+});
+
+fastify.post('/users', async (request, reply) => {
+  const { name, email } = request.body;
+  const newUser = {
+    id: users.length ? Math.max(...users.map(u => u.id)) + 1 : 1,
+    name,
+    email
+  };
+  users.push(newUser);
+  reply.redirect('/users');
 });
 
 const start = async () => {
