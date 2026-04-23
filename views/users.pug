@@ -1,16 +1,15 @@
 doctype html
-html(lang="ru")
+html
   head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Список пользователей
+    title Пользователи
   body
     h1 Список пользователей
-    ul
-      each user in users
-        li 
-          strong ID: #{user.id}, 
-          | Имя: #{user.name}, 
-          | Email: #{user.email}
+    each user in users
+      div
+        strong #{user.id}. #{user.name} 
+        | (#{user.email})
+        a(href=`/users/edit/${user.id}`) [Редактировать]
+        form(action=`/users/delete/${user.id}` method="POST" style="display:inline")
+          button(type="submit" onclick="return confirm('Удалить?')") Удалить
     br
     a(href="/users/create") Создать пользователя

@@ -1,19 +1,15 @@
 doctype html
-html(lang="ru")
+html
   head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Создать пользователя
+    title Новый пользователь
   body
-    h1 Создать пользователя
-    form(method="POST" action="/users")
-      label
-        | Имя:
-        input(type="text" name="name" required)
+    h1 Создание пользователя
+    form(action="/users" method="POST")
+      label Имя:
+      input(type="text" name="name" required)
       br
-      label
-        | Email:
-        input(type="email" name="email" required)
+      label Email:
+      input(type="email" name="email" required)
       br
-      button(type="submit") Создать
-    a(href="/users") К списку
+      button(type="submit") Сохранить
+    a(href="/users") Назад

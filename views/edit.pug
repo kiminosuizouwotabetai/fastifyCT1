@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title Редактирование
+  body
+    h1 Редактирование пользователя
+    form(action=`/users/update/${user.id}` method="POST")
+      label Имя:
+      input(type="text" name="name" value=user.name required)
+      br
+      label Email:
+      input(type="email" name="email" value=user.email required)
+      br
+      button(type="submit") Обновить
+    a(href="/users") Назад
